@@ -10,7 +10,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import HumanMessage, AIMessage
 
 # ⚠️ تأكد من كتابة مفتاح جوجل السري الفعلي الخاص بك هنا بدقة
-MY_SECRET_KEY = "AQ.Ab8RN6JKvG_nd75fLjZ_Qi7J88uBS_ih8BFi6DIYLdEU7MIiSw"
+MY_SECRET_KEY = "AQ.Ab8RN6KeiG-s_bRTEyDWGImUF_D-vUBfVY8ftvS-0V8v2FEF3w"
 
 # إعدادات شاشة العرض لمتصفحات اللابتوب والجوال
 st.set_page_config(page_title="مستشار الهندسة الكهربائية", page_icon="⚡", layout="centered")
