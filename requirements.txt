@@ -1,5 +1,9 @@
 streamlit
 langchain-community
 langchain-google-genai
-langchain-chroma
+streamlit
+langchain-community
+langchain-google-genai
+faiss-cpu
+pypdf
 pypdf
