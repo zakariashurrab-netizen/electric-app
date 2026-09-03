@@ -11,7 +11,7 @@ from langchain_core.messages import HumanMessage, AIMessage
 
 # ⚠️ ضع هنا مفتاح جوجل السري الخاص بك بدقة
 import streamlit as st
-MY_SECRET_KEY = st.secrets["GOOGLE_API_KEY"]
+MY_SECRET_KEY = "AQ.Ab8RN6JKvG_nd75fLjZ_Qi7J88uBS_ih8BFi6DIYLdEU7MIiSw"
 
 
 # إعدادات شاشة العرض لمتصفحات اللابتوب والجوال
