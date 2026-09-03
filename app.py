@@ -33,7 +33,7 @@ def get_retriever():
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-2-preview", google_api_key=MY_SECRET_KEY)
+    embeddings = GoogleGenerativeAIEmbeddings(model="text-embedding-004", google_api_key=MY_SECRET_KEY)
     db = Chroma.from_documents(texts, embeddings)
     return db.as_retriever(search_kwargs={"k": 4})
 
