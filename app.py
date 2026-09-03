@@ -25,7 +25,7 @@ st.write("---")
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-@st.cache_resource
+
 def get_retriever():
     if not os.path.exists("./") or not any(f.endswith('.pdf') for f in os.listdir("./")):
         return None
