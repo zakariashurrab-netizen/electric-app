@@ -2,17 +2,15 @@ import os
 import streamlit as st
 from langchain_community.document_loaders import DirectoryLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import HumanMessage, AIMessage
 
-# ⚠️ ضع هنا مفتاح جوجل السري الخاص بك بدقة
-import streamlit as st
+# ⚠️ تأكد من كتابة مفتاح جوجل السري الفعلي الخاص بك هنا بدقة
 MY_SECRET_KEY = "AQ.Ab8RN6JKvG_nd75fLjZ_Qi7J88uBS_ih8BFi6DIYLdEU7MIiSw"
-
 
 # إعدادات شاشة العرض لمتصفحات اللابتوب والجوال
 st.set_page_config(page_title="مستشار الهندسة الكهربائية", page_icon="⚡", layout="centered")
@@ -25,7 +23,6 @@ st.write("---")
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-
 def get_retriever():
     if not os.path.exists("./") or not any(f.endswith('.pdf') for f in os.listdir("./")):
         return None
@@ -33,14 +30,23 @@ def get_retriever():
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
-    embeddings = GoogleGenerativeAIEmbeddings(model="text-embedding-004", google_api_key=MY_SECRET_KEY)
-    db = Chroma.from_documents(texts, embeddings)
+    
+    # استخدام النموذج الرسمي والمدعوم حالياً في التحديثات
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004", google_api_key=MY_SECRET_KEY)
+    
+    # استخدام مكتبة FAISS الخفيفة داخل الذاكرة لمنع أخطاء السيرفرات السحابية
+    db = FAISS.from_documents(texts, embeddings)
     return db.as_retriever(search_kwargs={"k": 4})
 
-retriever = get_retriever()
+# تشغيل الفهرسة الفورية الحية
+try:
+    retriever = get_retriever()
+except Exception as e:
+    st.error(f"❌ خطأ داخلي في النظام السحابي: {e}")
+    retriever = None
 
 if retriever is None:
-    st.error("❌ لم يتم العثور على أي ملفات مراجع هندسية PDF بجانب المجلد السحابي!")
+    st.error("❌ لم يتم العثور على أي ملفات مراجع هندسية PDF بجانب المجلد السحابي! يرجى رفع الكتب أولاً.")
 else:
     # عرض رسائل الشات السابقة بتنسيق محادثة منسق ومقروء
     for message in st.session_state.chat_history:
