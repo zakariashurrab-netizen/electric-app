@@ -10,7 +10,9 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import HumanMessage, AIMessage
 
 # ⚠️ ضع هنا مفتاح جوجل السري الخاص بك بدقة
-MY_SECRET_KEY = "AQ.Ab8RN6JKvG_nd75fLjZ_Qi7J88uBS_ih8BFi6DIYLdEU7MIiSw"
+import streamlit as st
+MY_SECRET_KEY = st.secrets["GOOGLE_API_KEY"]
+
 
 # إعدادات شاشة العرض لمتصفحات اللابتوب والجوال
 st.set_page_config(page_title="مستشار الهندسة الكهربائية", page_icon="⚡", layout="centered")
